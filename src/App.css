@@ -1,0 +1,14 @@
+.matrixContainer {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+    width: fit-content;
+    margin: 1px auto;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    box-sizing: border-box;
+}

@@ -4,19 +4,20 @@ const Square = styled.div`
     width: 15px;
     height: 15px;
     background-color: ${props =>
-        props.backgroundColor ? props.backgroundColor : 'blue'};
-    margin: 1px;
-    color: ${props => props.color};
+        props.backgroundColor ? props.backgroundColor : 'white'};
+    outline: 1px solid black;
+    color: white;
     box-sizing: border-box;
-    display: flex;          /* Add flexbox to center the number */
-    justify-content: center; /* Horizontally center */
-    align-items: center;     /* Vertically center */
-    font-size: 10px;        /* Adjust font size as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    margin: ${props => props.margin ? props.margin : "0 .5px"};
 `;
 
-const Block = ({ backgroundColor, number, color}) => {
+const Block = ({ backgroundColor, number, color, margin}) => {
     return (
-        <Square backgroundColor={backgroundColor} color={color}>
+        <Square backgroundColor={backgroundColor} color={color} margin={margin}>
             {number}
         </Square>
     );

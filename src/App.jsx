@@ -1,36 +1,59 @@
 import './App.css';
 import Block from './Block';
+import Row from './Row';
 import styled from 'styled-components';
 
 const Plane = styled.div`
     display: flex;
     flex-wrap: wrap;
-    width: ${16 * 25 + 1}px;
-    height: ${16 * 25 + 1}px;
-    justify-content: center;
+    flex-direction: row;
+    width: ${props => props.width + 'px'};
+    height: fit-content;
 `;
 
 function App() {
     const options = {
-        backgroundColor: 'red',
-        color: 'black',
-        xLength: 25,
-        yLength: 25,
+        xLength: 30,
+        yLength: 30,
     };
 
     return (
-        <Plane>
-            {Array.from({ length: options.xLength }, (row, rowIndex) =>
-                Array.from({ length: options.yLength }, (col, colIndex) => (
+        <div className='matrixContainer'>
+            <div>
+                {Array.from({ length: options.yLength + 1 }, (_, rowIndex) => (
                     <Block
-                        key={`${rowIndex}-${colIndex}`}
-                        color={options.color}
-                        backgroundColor={options.backgroundColor}
-                        number={rowIndex * options.yLength + colIndex}
+                        key={rowIndex}
+                        number={options.yLength - rowIndex}
+                        backgroundColor={'blue'}
+                        margin={rowIndex === 0 ? '.5px 0 0 0' : '1px 0'}
                     />
-                ))
-            )}
-        </Plane>
+                ))}
+            </div>
+            <Plane width={(options.xLength + 1) * 16 + 1}>
+                {Array.from({ length: options.yLength + 1 }, (_, rowIndex) => (
+                    <Row key={rowIndex}>
+                        {Array.from(
+                            { length: options.xLength + 1 },
+                            (_, colIndex) => (
+                                <Block key={`${rowIndex}-${colIndex}`} />
+                            )
+                        )}
+                    </Row>
+                ))}
+                <Row>
+                    {Array.from(
+                        { length: options.xLength + 1 },
+                        (_, colIndex) => (
+                            <Block
+                                key={colIndex}
+                                number={colIndex}
+                                backgroundColor={'blue'}
+                            />
+                        )
+                    )}
+                </Row>
+            </Plane>
+        </div>
     );
 }
 
