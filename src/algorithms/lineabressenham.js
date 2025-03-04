@@ -1,4 +1,4 @@
-export const lineaBressenha = (x1, y1, x2, y2) => {
+const lineaBressenham = (x1, y1, x2, y2) => {
     // Entrada de variables
 
     // Calcular de diferencias con valor absoluto
@@ -47,6 +47,4 @@ export const lineaBressenha = (x1, y1, x2, y2) => {
     return points; // Retornar arreglo de puntos
 };
 
-const result = lineaBressenha(3, 5, 17, 23); // Llamada a la función
-
-console.log(result); // Mostrar resultado en consola
+export default lineaBressenham; // Exportar función

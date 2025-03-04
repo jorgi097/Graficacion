@@ -1,5 +1,14 @@
 import styled from 'styled-components';
+import { useState } from 'react';
+import lineadda from './algorithms/lineadda';
+import lineabressenham from './algorithms/lineabressenham';
+import circulodda from './algorithms/circulodda';
+import circulobressenham from './algorithms/circulobressenham';
 
+
+
+
+// Estilos---------------------------------------------------------------
 const MenuStyled = styled.div`
     display: block;
     min-width: 350px;
@@ -11,102 +20,205 @@ const MenuStyled = styled.div`
     padding: 30px;
 `;
 
-// Estilos para el contenedor div
+const OptionsContainer = styled.div`
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #2c2c2c;
+`;
+
 const RadioContainer = styled.div`
     margin: 10px 0;
 `;
 
-// Estilos para el input de tipo radio
 const RadioInput = styled.input`
     margin: 0 10px 0 0;
 `;
 
-// Estilos para el label
 const RadioLabel = styled.label``;
 
-// Componente principal que combina los estilos
-const RadioButton = ({ id, name, label }) => {
+
+const InputGroup = styled.div`
+    margin: 10px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const InputLabel = styled.label`
+    min-width: 100px;
+`;
+
+const InputField = styled.input`
+    margin-left: 10px;
+    width: 100px;
+    border-radius: 5px;
+    height: 30px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    padding: 0 10px;
+`;
+
+const RadioButton = ({ id, name, label, checked, onChange }) => {
     return (
         <RadioContainer>
-            <RadioInput type='radio' id={id} name={name} />
+            <RadioInput
+                type='radio'
+                id={id}
+                name={name}
+                checked={checked === id}
+                onChange={() => onChange(id)}
+            />
             <RadioLabel htmlFor={id}>{label}</RadioLabel>
         </RadioContainer>
     );
 };
 
-const algorithms = [
-    { id: 'l-dda', name: 'algorithm', label: 'LINEA DDA' },
-    { id: 'l-bsh', name: 'algorithm', label: 'LINEA BRESSENHAM' },
-    { id: 'c-dda', name: 'algorithm', label: 'CIRCULO DDA' },
-    { id: 'c-pm', name: 'algorithm', label: 'CIRCULO PUNTO MEDIO' },
-    // { id: 'e-pm', name: 'algorithm', label: 'ELIPSE PUNTO MEDIO' },
-    // { id: 'par', name: 'algorithm', label: 'PARABOLA' },
-    // { id: 'pol', name: 'algorithm', label: 'POLIGONO REGULAR' },
-];
+// Componente para parametros de algoritmos
+const InputGroupComponent = ({ id, label, value, onChange }) => {
+    return (
+        <InputGroup>
+            <InputLabel htmlFor={id}>{label}</InputLabel>
+            <InputField
+                type='number'
+                id={id}
+                value={value}
+                onChange={e => onChange(id, e.target.value)}
+            />
+        </InputGroup>
+    );
+};
 
-const Menu = ({ options, setOptions }) => {
-    const handleXLengthChange = e => {
-        setOptions({ ...options, xLength: parseInt(e.target.value) });
+// Componente Menu-------------------------------------------------------
+
+const Menu = () => {
+
+    const [selectedAlgorithm, setSelectedAlgorithm] = useState(null);
+
+    const [algorithmParams, setAlgorithmParams] = useState({
+        // Parámetros para líneas
+        x1: 0,
+        y1: 0,
+        x2: 0,
+        y2: 0,
+        // Parámetros para círculos
+        xCenter: 0,
+        yCenter: 0,
+        radius: 0,
+    });
+
+    // Lista de algoritmos disponibles
+    const algorithms = [
+        { id: 'l-dda', name: 'algorithm', label: 'LINEA DDA' },
+        { id: 'l-bsh', name: 'algorithm', label: 'LINEA BRESSENHAM' },
+        { id: 'c-dda', name: 'algorithm', label: 'CIRCULO DDA' },
+        { id: 'c-pm', name: 'algorithm', label: 'CIRCULO PUNTO MEDIO' },
+        // { id: 'e-pm', name: 'algorithm', label: 'ELIPSE PUNTO MEDIO' },
+        // { id: 'par', name: 'algorithm', label: 'PARABOLA' },
+        // { id: 'pol', name: 'algorithm', label: 'POLIGONO REGULAR' },
+    ];
+
+    // Actualiza el algoritmo seleccionado
+    const handleAlgorithmChange = id => {
+        setSelectedAlgorithm(id);
     };
 
-    const handleYLengthChange = e => {
-        setOptions({ ...options, yLength: parseInt(e.target.value) });
+    // Actualiza los parámetros del algoritmo seleccionado
+    const handleParamChange = (param, value) => {
+        setAlgorithmParams({...algorithmParams,[param]: parseInt(value),});
+    };
+
+    // Renderiza opciones específicas según el algoritmo seleccionado
+    const renderAlgorithmOptions = () => {
+        if (!selectedAlgorithm) return null;
+
+        if (selectedAlgorithm.startsWith('l-')) {
+            // Opciones para algoritmos de líneas
+            return (
+                <OptionsContainer>
+                    <h3>Configuración de línea</h3>
+                    <InputGroupComponent
+                        id='x1'
+                        label='Punto inicial X:'
+                        value={algorithmParams.x1}
+                        onChange={handleParamChange}
+                    />
+                    <InputGroupComponent
+                        id='y1'
+                        label='Punto inicial Y:'
+                        value={algorithmParams.y1}
+                        onChange={handleParamChange}
+                    />
+                    <InputGroupComponent
+                        id='x2'
+                        label='Punto final X:'
+                        value={algorithmParams.x2}
+                        onChange={handleParamChange}
+                    />
+                    <InputGroupComponent
+                        id='y2'
+                        label='Punto final Y:'
+                        value={algorithmParams.y2}
+                        onChange={handleParamChange}
+                    />
+                </OptionsContainer>
+            );
+        } else if (selectedAlgorithm.startsWith('c-')) {
+            // Opciones para algoritmos de círculos
+            return (
+                <OptionsContainer>
+                    <h3>Configuración de círculo</h3>
+                    <InputGroupComponent
+                        id='xCenter'
+                        label='Centro X:'
+                        value={algorithmParams.xCenter}
+                        onChange={handleParamChange}
+                    />
+                    <InputGroupComponent
+                        id='yCenter'
+                        label='Centro Y:'
+                        value={algorithmParams.yCenter}
+                        onChange={handleParamChange}
+                    />
+                    <InputGroupComponent
+                        id='radius'
+                        label='Radio:'
+                        value={algorithmParams.radius}
+                        onChange={handleParamChange}
+                    />
+                </OptionsContainer>
+            );
+        }
     };
 
     return (
         <MenuStyled>
             <h1>ALGORITMOS DE GRAFICACION</h1>
-            {/* <div style={{ margin: '30px 0' }}>
-                <label htmlFor='xLength'>X Length:</label>
-                <input
-                    style={{
-                        margin: '0 0 0 15px',
-                        width: '100px',
-                        borderRadius: '5px',
-                        height: '30px',
-                    }}
-                    type='number'
-                    id='xLength'
-                    name='xLength'
-                    min='1'
-                    max='100'
-                    value={options.xLength}
-                    onChange={handleXLengthChange}
-                />
-            </div>
-            <div className='div'>
-                <label htmlFor='yLength'>Y Length:</label>
-                <input
-                    style={{
-                        margin: '0 0 0 15px',
-                        width: '100px',
-                        borderRadius: '5px',
-                        height: '30px',
-                    }}
-                    type='number'
-                    id='yLength'
-                    name='yLength'
-                    min='1'
-                    max='100'
-                    value={options.yLength}
-                    onChange={handleYLengthChange}
-                />
-            </div> */}
 
-            <div
-                style={{
-                    margin: '30px 0',
-                    display: 'flex',
-                    flexDirection: 'column',
-                }}>
-                {algorithms.map(algorithm => (
-                    <RadioButton
-                        id={algorithm.id}
-                        name={algorithm.name}
-                        label={algorithm.label}
-                    />
-                ))}
-            </div>
+            <OptionsContainer>
+                <div
+                    style={{
+                        margin: '5px 0',
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}>
+                    {algorithms.map(algorithm => (
+                        <RadioButton
+                            key={algorithm.id}
+                            id={algorithm.id}
+                            name={algorithm.name}
+                            label={algorithm.label}
+                            checked={selectedAlgorithm}
+                            onChange={handleAlgorithmChange}
+                        />
+                    ))}
+                </div>
+            </OptionsContainer>
+
+            {renderAlgorithmOptions()}
         </MenuStyled>
     );
 };
