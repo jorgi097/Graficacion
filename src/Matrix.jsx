@@ -19,7 +19,7 @@ const StyledMatrix = styled.div`
     padding: 20px;
 `;
 
-function Matrix({ options }) {
+function Matrix({ options, points }) { //Recibe los puntos como prop
     return (
         <StyledMatrix>
             <div>
@@ -37,9 +37,15 @@ function Matrix({ options }) {
                     <Row key={rowIndex}>
                         {Array.from(
                             { length: options.xLength + 1 },
-                            (_, colIndex) => (
-                                <Block key={`${rowIndex}-${colIndex}`} />
-                            )
+                            (_, colIndex) => {
+                                const isPoint = points.some(point => point.x === colIndex && point.y === (options.yLength - rowIndex));
+                                return (
+                                    <Block
+                                        key={`${rowIndex}-${colIndex}`}
+                                        backgroundColor={isPoint ? 'red' : null} // Pinta el bloque si es un punto
+                                    />
+                                );
+                            }
                         )}
                     </Row>
                 ))}

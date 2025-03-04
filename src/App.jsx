@@ -18,12 +18,15 @@ function App() {
     const [options, setOptions] = useState({
         xLength: 15,
         yLength: 15,
+        
     });
+
+    const [points, setPoints] = useState([]); // Estado para almacenar los puntos
 
     return (
         <Container>
-            <Menu options={options} setOptions={setOptions} />
-            <Matrix options={options} />
+            <Menu setPoints={setPoints} options={options} setOptions={setOptions} />
+            <Matrix options={options} points={points} /> {/* Pasamos los puntos a Matrix */}
         </Container>
     );
 }

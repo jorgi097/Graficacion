@@ -5,9 +5,6 @@ import lineabressenham from './algorithms/lineabressenham';
 import circulodda from './algorithms/circulodda';
 import circulobressenham from './algorithms/circulobressenham';
 
-
-
-
 // Estilos---------------------------------------------------------------
 const MenuStyled = styled.div`
     display: block;
@@ -37,7 +34,6 @@ const RadioInput = styled.input`
 `;
 
 const RadioLabel = styled.label``;
-
 
 const InputGroup = styled.div`
     margin: 10px 0;
@@ -94,7 +90,7 @@ const InputGroupComponent = ({ id, label, value, onChange }) => {
 
 // Componente Menu-------------------------------------------------------
 
-const Menu = () => {
+const Menu = ({ setPoints }) => { //Recibe la función setPoints como prop
 
     const [selectedAlgorithm, setSelectedAlgorithm] = useState(null);
 
@@ -123,12 +119,35 @@ const Menu = () => {
 
     // Actualiza el algoritmo seleccionado
     const handleAlgorithmChange = id => {
+
         setSelectedAlgorithm(id);
     };
 
     // Actualiza los parámetros del algoritmo seleccionado
     const handleParamChange = (param, value) => {
         setAlgorithmParams({...algorithmParams,[param]: parseInt(value),});
+    };
+
+    const executeAlgorithm = () => {
+        let points = [];
+        switch (selectedAlgorithm) {
+            case 'l-dda':
+                points = lineadda(algorithmParams.x1, algorithmParams.y1, algorithmParams.x2, algorithmParams.y2);
+                break;
+            case 'l-bsh':
+                points = lineabressenham(algorithmParams.x1, algorithmParams.y1, algorithmParams.x2, algorithmParams.y2);
+                break;
+            case 'c-dda':
+                points = circulodda(algorithmParams.xCenter, algorithmParams.yCenter, algorithmParams.radius);
+                break;
+            case 'c-pm':
+                points = circulobressenham(algorithmParams.xCenter, algorithmParams.yCenter, algorithmParams.radius);
+                break;
+            default:
+                console.log('Algoritmo no implementado');
+                return;
+        }
+        setPoints(points); // Actualiza el estado en App.jsx con los puntos
     };
 
     // Renderiza opciones específicas según el algoritmo seleccionado
@@ -164,6 +183,7 @@ const Menu = () => {
                         value={algorithmParams.y2}
                         onChange={handleParamChange}
                     />
+                     <button onClick={executeAlgorithm}>Ejecutar Algoritmo</button>
                 </OptionsContainer>
             );
         } else if (selectedAlgorithm.startsWith('c-')) {
@@ -189,6 +209,7 @@ const Menu = () => {
                         value={algorithmParams.radius}
                         onChange={handleParamChange}
                     />
+                    <button onClick={executeAlgorithm}>Ejecutar Algoritmo</button>
                 </OptionsContainer>
             );
         }
