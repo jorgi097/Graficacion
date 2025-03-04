@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useState, useCallback } from 'react';
 
 const MenuStyled = styled.div`
     display: block;
@@ -11,6 +10,39 @@ const MenuStyled = styled.div`
     color: ghostwhite;
     padding: 30px;
 `;
+
+// Estilos para el contenedor div
+const RadioContainer = styled.div`
+    margin: 10px 0;
+`;
+
+// Estilos para el input de tipo radio
+const RadioInput = styled.input`
+    margin: 0 10px 0 0;
+`;
+
+// Estilos para el label
+const RadioLabel = styled.label``;
+
+// Componente principal que combina los estilos
+const RadioButton = ({ id, name, label }) => {
+    return (
+        <RadioContainer>
+            <RadioInput type='radio' id={id} name={name} />
+            <RadioLabel htmlFor={id}>{label}</RadioLabel>
+        </RadioContainer>
+    );
+};
+
+const algorithms = [
+    { id: 'l-dda', name: 'algorithm', label: 'LINEA DDA' },
+    { id: 'l-bsh', name: 'algorithm', label: 'LINEA BRESSENHAM' },
+    { id: 'c-dda', name: 'algorithm', label: 'CIRCULO DDA' },
+    { id: 'c-pm', name: 'algorithm', label: 'CIRCULO PUNTO MEDIO' },
+    // { id: 'e-pm', name: 'algorithm', label: 'ELIPSE PUNTO MEDIO' },
+    // { id: 'par', name: 'algorithm', label: 'PARABOLA' },
+    // { id: 'pol', name: 'algorithm', label: 'POLIGONO REGULAR' },
+];
 
 const Menu = ({ options, setOptions }) => {
     const handleXLengthChange = e => {
@@ -24,7 +56,7 @@ const Menu = ({ options, setOptions }) => {
     return (
         <MenuStyled>
             <h1>ALGORITMOS DE GRAFICACION</h1>
-            <div style={{ margin: '30px 0' }}>
+            {/* <div style={{ margin: '30px 0' }}>
                 <label htmlFor='xLength'>X Length:</label>
                 <input
                     style={{
@@ -59,76 +91,21 @@ const Menu = ({ options, setOptions }) => {
                     value={options.yLength}
                     onChange={handleYLengthChange}
                 />
-            </div>
+            </div> */}
+
             <div
                 style={{
                     margin: '30px 0',
                     display: 'flex',
                     flexDirection: 'column',
                 }}>
-                <div style={{ margin: '10px 0' }}>
-                    <input
-                        style={{ margin: '0 10px 0 0' }}
-                        type='radio'
-                        id='l-dda'
-                        name='algorithm'
+                {algorithms.map(algorithm => (
+                    <RadioButton
+                        id={algorithm.id}
+                        name={algorithm.name}
+                        label={algorithm.label}
                     />
-                    <label htmlFor='l-dda'>LINEA DDA</label>
-                </div>
-                <div style={{ margin: '10px 0' }}>
-                    <input
-                        style={{ margin: '0 10px 0 0' }}
-                        type='radio'
-                        id='l-bsh'
-                        name='algorithm'
-                    />
-                    <label htmlFor='bsh'>LINEA BRESSENHAM</label>
-                </div>
-                <div style={{ margin: '10px 0' }}>
-                    <input
-                        style={{ margin: '0 10px 0 0' }}
-                        type='radio'
-                        id='c-dda'
-                        name='algorithm'
-                    />
-                    <label htmlFor='c-dda'>CIRCULO DDA</label>
-                </div>
-                <div style={{ margin: '10px 0' }}>
-                    <input
-                        style={{ margin: '0 10px 0 0' }}
-                        type='radio'
-                        id='c-pm'
-                        name='algorithm'
-                    />
-                    <label htmlFor='c-pm'>CIRCULO PUNTO MEDIO</label>
-                </div>
-                <div style={{ margin: '10px 0' }}>
-                    <input
-                        style={{ margin: '0 10px 0 0' }}
-                        type='radio'
-                        id='e-pm'
-                        name='algorithm'
-                    />
-                    <label htmlFor='e-pm'>ELIPSE PUNTO MEDIO</label>
-                </div>
-                <div style={{ margin: '10px 0' }}>
-                    <input
-                        style={{ margin: '0 10px 0 0' }}
-                        type='radio'
-                        id='par'
-                        name='algorithm'
-                    />
-                    <label htmlFor='par'>PARABOLA</label>
-                </div>
-                <div style={{ margin: '10px 0' }}>
-                    <input
-                        style={{ margin: '0 10px 0 0' }}
-                        type='radio'
-                        id='pol'
-                        name='algorithm'
-                    />
-                    <label htmlFor='pol'>POLIGONO REGULAR</label>
-                </div>
+                ))}
             </div>
         </MenuStyled>
     );
