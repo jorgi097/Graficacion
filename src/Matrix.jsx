@@ -19,7 +19,7 @@ const StyledMatrix = styled.div`
     padding: 20px;
 `;
 
-function Matrix({ options, points }) { //Recibe los puntos como prop
+function Matrix({ options, points }) { //Recibe los puntos y el largo de la matriz
     return (
         <StyledMatrix>
             <div>
@@ -38,18 +38,18 @@ function Matrix({ options, points }) { //Recibe los puntos como prop
                         {Array.from(
                             { length: options.xLength + 1 },
                             (_, colIndex) => {
-                                const isPoint = points.some(point => point.x === colIndex && point.y === (options.yLength - rowIndex));
+                                const isPoint = points.some(point => point[0] === colIndex && point[1] === (options.yLength - rowIndex));
                                 return (
                                     <Block
                                         key={`${rowIndex}-${colIndex}`}
-                                        backgroundColor={isPoint ? 'red' : null} // Pinta el bloque si es un punto
+                                        backgroundColor={isPoint ? options.color : null} // Pinta el bloque si es un punto
                                     />
                                 );
                             }
                         )}
                     </Row>
                 ))}
-                <Row>
+                <Row> {/* Crea la fila de numeros de abajo */}
                     {Array.from(
                         { length: options.xLength + 1 },
                         (_, colIndex) => (

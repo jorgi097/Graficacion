@@ -31,6 +31,7 @@ const lineadda = (x1, y1, x2, y2) => { // Entrada de variables
         y += yIncrement;
     }
 
+    console.log(points); // Mostrar puntos en consola
     return points; // Retornar arreglo de puntos
 };
 

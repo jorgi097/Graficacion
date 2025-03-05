@@ -4,7 +4,7 @@ const Square = styled.div`
     min-width: 20px;
     min-height: 20px;
     background-color: ${props =>
-        props.backgroundColor ? props.backgroundColor : 'white'};
+        props.backgroundColor || 'white'};
     outline: 1px solid black;
     color: white;
     box-sizing: border-box;

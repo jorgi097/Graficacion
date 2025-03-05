@@ -18,7 +18,7 @@ function App() {
     const [options, setOptions] = useState({
         xLength: 15,
         yLength: 15,
-        
+        color: '#497dad'
     });
 
     const [points, setPoints] = useState([]); // Estado para almacenar los puntos
