@@ -20,7 +20,7 @@ const lineaBressenham = (x1, y1, x2, y2) => {
     // Calcular parámetro inicial
     let p = 2 * deltaY - deltaX;
 
-    const points = [[p, x1, y1]]; // Arreglo de puntos de la linea con valor inicial
+    const points = [[x1, y1]]; // Arreglo de puntos de la linea con valor inicial
 
     for (let index = 0; index < deltaX; index++) {
         // Si el parametro de decisión es mayor o igual a cero
@@ -42,7 +42,8 @@ const lineaBressenham = (x1, y1, x2, y2) => {
 
         p += 2 * deltaY; // Siempre se aumenta esto en el parametro independiente de si el parametro es mayor o igual a cero
 
-        points.push([p, x1, y1]); // Agregar siguiente punto
+
+        points.push([x1, y1]); // Agregar siguiente punto
     }
     return points; // Retornar arreglo de puntos
 };
