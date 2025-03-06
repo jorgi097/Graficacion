@@ -172,9 +172,9 @@ const Menu = ({ setPoints, options, setOptions }) => {
                 break;
             case 'c-pm':
                 points = circulobressenham(
+                    algorithmParams.radius,
                     algorithmParams.xCenter,
                     algorithmParams.yCenter,
-                    algorithmParams.radius
                 );
                 break;
             default:
