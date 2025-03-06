@@ -165,9 +165,9 @@ const Menu = ({ setPoints, options, setOptions }) => {
                 break;
             case 'c-dda':
                 points = circulodda(
+                    algorithmParams.radius,
                     algorithmParams.xCenter,
                     algorithmParams.yCenter,
-                    algorithmParams.radius
                 );
                 break;
             case 'c-pm':
