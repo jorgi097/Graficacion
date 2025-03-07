@@ -3,6 +3,7 @@ import Matrix from './Matrix';
 import Menu from './Menu';
 import styled from 'styled-components';
 import { useState } from 'react';
+import FigureTable from './FigureTable';
 
 const Container = styled.div`
     display: flex;
@@ -31,6 +32,7 @@ function App() {
                 options={options}
                 setOptions={setOptions}
             />
+            <FigureTable figureData={figureData} />
             <Matrix options={options} figureData={figureData} />
         </Container>
     );
