@@ -26,7 +26,9 @@ const circulodda = (radius, xCenter = 0, yCenter = 0) => {
         x++;
     }
 
-    return points;
+    const data = {points:points, radius:radius, xCenter:xCenter, yCenter:yCenter}; // Datos del círculo
+
+    return data;
 };
 
 export default circulodda;

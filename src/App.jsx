@@ -15,18 +15,23 @@ const Container = styled.div`
 `;
 
 function App() {
+    // Estados para almacenar los parametros de la figura
     const [options, setOptions] = useState({
         xLength: 15,
         yLength: 15,
-        color: '#497dad'
+        color: '#497dad',
     });
 
-    const [points, setPoints] = useState([]); // Estado para almacenar los puntos
+    const [figureData, setFigureData] = useState({ points: [] }); // Estado para almacenar los puntos
 
     return (
         <Container>
-            <Menu setPoints={setPoints} options={options} setOptions={setOptions} />
-            <Matrix options={options} points={points} /> {/* Pasamos los puntos a Matrix */}
+            <Menu
+                setFigureData={setFigureData}
+                options={options}
+                setOptions={setOptions}
+            />
+            <Matrix options={options} figureData={figureData} />
         </Container>
     );
 }

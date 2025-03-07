@@ -1,5 +1,4 @@
 const lineaBressenham = (x1, y1, x2, y2) => {
-    // Entrada de variables
 
     // Calcular de diferencias con valor absoluto
     let deltaX = Math.abs(x2 - x1);
@@ -8,6 +7,8 @@ const lineaBressenham = (x1, y1, x2, y2) => {
     // Calcular incrementos
     const xIncrement = x1 > x2 ? -1 : 1;
     const yIncrement = y1 > y2 ? -1 : 1;
+
+    const m = deltaY / deltaX; // Calcular pendiente
 
     // Definir el eje principal
     let swapAxis = false;
@@ -23,7 +24,6 @@ const lineaBressenham = (x1, y1, x2, y2) => {
     const points = [[x1, y1]]; // Arreglo de puntos de la linea con valor inicial
 
     for (let index = 0; index < deltaX; index++) {
-        // Si el parametro de decisión es mayor o igual a cero
         if (p >= 0) {
             if (swapAxis) {
                 x1 += xIncrement;
@@ -31,7 +31,7 @@ const lineaBressenham = (x1, y1, x2, y2) => {
                 y1 += yIncrement;
             }
 
-            p -= 2 * deltaX; // Solo se resta esto si el parametro es mayor o igual a cero
+            p -= 2 * deltaX; // Solo se resta esto si el parametro de decision es mayor o igual a cero
         }
 
         if (swapAxis) {
@@ -40,12 +40,15 @@ const lineaBressenham = (x1, y1, x2, y2) => {
             x1 += xIncrement;
         }
 
-        p += 2 * deltaY; // Siempre se aumenta esto en el parametro independiente de si el parametro es mayor o igual a cero
+        p += 2 * deltaY; // Siempre se aumenta esto en el parametro independiente de si el parametro de desición es mayor o igual a cero
 
 
         points.push([x1, y1]); // Agregar siguiente punto
     }
-    return points; // Retornar arreglo de puntos
+
+    const data = {points: points, m:m, deltas:{deltaX:deltaX, deltaY:deltaY}, increments:{xIncrement:xIncrement, yIncrement:yIncrement}}; // Datos de la linea
+
+    return data; // Retornar arreglo de puntos
 };
 
 export default lineaBressenham; // Exportar función

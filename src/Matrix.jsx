@@ -19,7 +19,7 @@ const StyledMatrix = styled.div`
     padding: 20px;
 `;
 
-function Matrix({ options, points }) { //Recibe los puntos y el largo de la matriz
+function Matrix({ options, figureData }) { //Recibe los puntos y el largo de la matriz
     return (
         <StyledMatrix>
             <div>
@@ -51,7 +51,7 @@ function Matrix({ options, points }) { //Recibe los puntos y el largo de la matr
                         {Array.from(
                             { length: options.xLength + 1 },
                             (_, colIndex) => {
-                                const isPoint = points.some(point => point[0] === colIndex && point[1] === rowIndex);
+                                const isPoint = figureData.points.some(point => point[0] === colIndex && point[1] === rowIndex);
                                 return (
                                     <Block
                                         key={`${rowIndex}-${colIndex}`}

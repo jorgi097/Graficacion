@@ -106,7 +106,7 @@ const InputGroupComponent = ({ id, label, value, onChange }) => {
 
 // Componente Menu-------------------------------------------------------
 
-const Menu = ({ setPoints, options, setOptions }) => {
+const Menu = ({ setFigureData, options, setOptions }) => {
     //Recibe la función setPoints como prop
 
     const [selectedAlgorithm, setSelectedAlgorithm] = useState(null);
@@ -145,10 +145,10 @@ const Menu = ({ setPoints, options, setOptions }) => {
     };
 
     const executeAlgorithm = () => {
-        let points = [];
+        let data;
         switch (selectedAlgorithm) {
             case 'l-dda':
-                points = lineadda(
+                data = lineadda(
                     algorithmParams.x1,
                     algorithmParams.y1,
                     algorithmParams.x2,
@@ -156,7 +156,7 @@ const Menu = ({ setPoints, options, setOptions }) => {
                 );
                 break;
             case 'l-bsh':
-                points = lineabressenham(
+                data = lineabressenham(
                     algorithmParams.x1,
                     algorithmParams.y1,
                     algorithmParams.x2,
@@ -164,14 +164,14 @@ const Menu = ({ setPoints, options, setOptions }) => {
                 );
                 break;
             case 'c-dda':
-                points = circulodda(
+                data = circulodda(
                     algorithmParams.radius,
                     algorithmParams.xCenter,
                     algorithmParams.yCenter,
                 );
                 break;
             case 'c-pm':
-                points = circulobressenham(
+                data = circulobressenham(
                     algorithmParams.radius,
                     algorithmParams.xCenter,
                     algorithmParams.yCenter,
@@ -181,12 +181,13 @@ const Menu = ({ setPoints, options, setOptions }) => {
                 console.log('Algoritmo no implementado');
                 return;
         }
-        setPoints(points); // Actualiza el estado en App.jsx con los puntos
+        
+        setFigureData(data); // Actualiza el estado en App.jsx con los puntos
 
         // Ajusta el tamaño de la matriz según los puntos generados
         const newMatrixSize =
             Math.max(
-                ...points.flat()
+                ...data.points.flat()
             ) + 5;
         setOptions({
             ...options,

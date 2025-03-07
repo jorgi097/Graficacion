@@ -29,7 +29,9 @@ const circuloBressenham = (radius, xCenter = 0, yCenter = 0) => {
         x++; // Siempre aumentamos x
     }
 
-    return points;
+    const data = {points:points, radius:radius, xCenter:xCenter, yCenter:yCenter}; // Datos del circulo
+
+    return data;
 };
 
 export default circuloBressenham;

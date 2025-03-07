@@ -1,4 +1,4 @@
-const lineadda = (x1, y1, x2, y2) => { // Entrada de variables
+const lineadda = (x1, y1, x2, y2) => {
     
     // Calcular de diferencias con redondeo
     const deltaX = parseFloat((x2 - x1).toFixed(2));
@@ -31,8 +31,9 @@ const lineadda = (x1, y1, x2, y2) => { // Entrada de variables
         y += yIncrement;
     }
 
-    console.log(points); // Mostrar puntos en consola
-    return points; // Retornar arreglo de puntos
+    const data = {points: points, m: m, steps: steps, deltas:{deltaX:deltaX, deltaY:deltaY}, incrments:{xIncrement:xIncrement, yIncrement:yIncrement}}; // Datos de la linea
+    
+    return data; // Retornar datos del algoritmo  
 };
 
-export default lineadda; // Exportar función
+export default lineadda;
