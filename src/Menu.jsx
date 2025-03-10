@@ -11,7 +11,6 @@ const MenuStyled = styled.div`
     display: block;
     min-width: 350px;
     max-width: 350px;
-    height: 100%;
     min-height: 100vh;
     background-color: #242324;
     color: ghostwhite;

@@ -20,7 +20,7 @@ function App() {
     const [options, setOptions] = useState({
         xLength: 15,
         yLength: 15,
-        color: '#497dad',
+        color: '#9E3EC1',
     });
 
     const [figureData, setFigureData] = useState({ points: [] }); // Estado para almacenar los puntos
@@ -31,6 +31,7 @@ function App() {
                 setFigureData={setFigureData}
                 options={options}
                 setOptions={setOptions}
+                style={{ height: '100%' }}    
             />
             <FigureTable figureData={figureData} />
             <Matrix options={options} figureData={figureData} />

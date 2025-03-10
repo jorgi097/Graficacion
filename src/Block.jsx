@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 const Square = styled.div`
-    min-width: 20px;
-    min-height: 20px;
+    min-width: 17px;
+    min-height: 17px;
     background-color: ${props =>
         props.backgroundColor || 'white'};
     outline: 1px solid black;

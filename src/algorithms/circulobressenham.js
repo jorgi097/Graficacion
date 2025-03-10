@@ -6,14 +6,12 @@ const circuloBressenham = (radius, xCenter = 0, yCenter = 0) => {
     let x = 0; // Inicializar x en 0
     let y = radius; // Inicializar y en el radio
 
-    points.push([xCenter, yCenter + radius]); // Primer punto
-
     while (x < y) {
         if (p < 0) {
-            p += 2 * x + 1;
+            p += 2 * x + 1;  // Calculo de parametro de decisión
         } else {
             y--; // Solo disminuimos y si p es negativo
-            p += 2 * (x - y) + 1;
+            p += 2 * (x - y) + 1; // Calculo de parametro de decisión
         }
 
         // Calcular 8 octantes usando simetría
@@ -29,7 +27,15 @@ const circuloBressenham = (radius, xCenter = 0, yCenter = 0) => {
         x++; // Siempre aumentamos x
     }
 
-    const data = {points:points, radius:radius, xCenter:xCenter, yCenter:yCenter}; // Datos del circulo
+    points.push([xCenter, yCenter]); // Centro del círculo
+
+
+    const data = {
+        points: points,
+        radius: radius,
+        xCenter: xCenter,
+        yCenter: yCenter,
+    }; // Datos del circulo
 
     return data;
 };

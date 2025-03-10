@@ -6,27 +6,27 @@ const circulodda = (radius, xCenter = 0, yCenter = 0) => {
 
     while (x <= y) {
         y = Math.round(Math.sqrt(radius * radius - x * x));
+
         // Calcular 8 octantes usando simetría
-        // Octante 1 y 5
         points.push([xCenter + x, yCenter + y]);
         points.push([xCenter - x, yCenter - y]);
-
-        // Octante 2 y 6
         points.push([xCenter + y, yCenter + x]);
         points.push([xCenter - y, yCenter - x]);
-
-        // Octante 3 y 7
         points.push([xCenter + y, yCenter - x]);
-        x;
         points.push([xCenter - y, yCenter + x]);
-
-        // Octante 4 y 8
         points.push([xCenter + x, yCenter - y]);
         points.push([xCenter - x, yCenter + y]);
         x++;
     }
 
-    const data = {points:points, radius:radius, xCenter:xCenter, yCenter:yCenter}; // Datos del círculo
+    points.push([xCenter, yCenter]); // Centro del círculo
+
+    const data = {
+        points: points,
+        radius: radius,
+        xCenter: xCenter,
+        yCenter: yCenter,
+    }; // Datos del círculo
 
     return data;
 };
