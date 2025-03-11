@@ -52,6 +52,7 @@ const FigureTable = ({ figureData }) => {
             <StyledFigureTable>
                 <thead>
                     <tr>
+                        {figureData.table ? <StyledTableHeader>P</StyledTableHeader> : null}
                         <StyledTableHeader>X</StyledTableHeader>
                         <StyledTableHeader>Y</StyledTableHeader>
                     </tr>
@@ -59,6 +60,7 @@ const FigureTable = ({ figureData }) => {
                 <tbody>
                     {figureData.points.map((point, index) => (
                         <StyledTableRow key={index}>
+                            {figureData.table ? <StyledTableCell>{figureData.table[index]}</StyledTableCell> : null}
                             <StyledTableCell>{point[0]}</StyledTableCell>
                             <StyledTableCell>{point[1]}</StyledTableCell>
                         </StyledTableRow>

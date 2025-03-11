@@ -1,5 +1,4 @@
 const lineaBressenham = (x1, y1, x2, y2) => {
-
     // Calcular de diferencias con valor absoluto
     let deltaX = Math.abs(x2 - x1);
     let deltaY = Math.abs(y2 - y1);
@@ -22,6 +21,7 @@ const lineaBressenham = (x1, y1, x2, y2) => {
     let p = 2 * deltaY - deltaX;
 
     const points = [[x1, y1]]; // Arreglo de puntos de la linea con valor inicial
+    const table = [p]; // Arreglo de valores de la tabla de con valor inicial
 
     for (let index = 0; index < deltaX; index++) {
         if (p >= 0) {
@@ -42,11 +42,17 @@ const lineaBressenham = (x1, y1, x2, y2) => {
 
         p += 2 * deltaY; // Siempre se aumenta esto en el parametro independiente de si el parametro de desición es mayor o igual a cero
 
-
         points.push([x1, y1]); // Agregar siguiente punto
+        table.push(p); // Agregar siguiente parametro a la tabla
     }
 
-    const data = {points: points, m:m, deltas:{deltaX:deltaX, deltaY:deltaY}, increments:{xIncrement:xIncrement, yIncrement:yIncrement}}; // Datos de la linea
+    const data = {
+        points: points,
+        m: m,
+        deltas: { deltaX: deltaX, deltaY: deltaY },
+        increments: { xIncrement: xIncrement, yIncrement: yIncrement },
+        table: table,
+    }; // Datos de la linea
 
     return data; // Retornar arreglo de puntos
 };

@@ -127,7 +127,7 @@ const Menu = ({ setFigureData, options, setOptions }) => {
         { id: 'l-dda', name: 'algorithm', label: 'LINEA DDA' },
         { id: 'l-bsh', name: 'algorithm', label: 'LINEA BRESSENHAM' },
         { id: 'c-dda', name: 'algorithm', label: 'CIRCULO DDA' },
-        { id: 'c-pm', name: 'algorithm', label: 'CIRCULO PUNTO MEDIO' },
+        { id: 'c-pm', name: 'algorithm', label: 'CIRCULO BRESSENHAM' },
         // { id: 'e-pm', name: 'algorithm', label: 'ELIPSE PUNTO MEDIO' },
         // { id: 'par', name: 'algorithm', label: 'PARABOLA' },
         // { id: 'pol', name: 'algorithm', label: 'POLIGONO REGULAR' },
