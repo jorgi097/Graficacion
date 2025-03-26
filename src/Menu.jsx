@@ -5,6 +5,7 @@ import lineabressenham from './algorithms/lineabressenham';
 import circulodda from './algorithms/circulodda';
 import circulobressenham from './algorithms/circulobressenham';
 import ColorPicker from './ColorPicker';
+import { ellipseBresenham } from './algorithms/elipsebressenham';
 
 // Estilos---------------------------------------------------------------
 const MenuStyled = styled.div`
@@ -120,6 +121,9 @@ const Menu = ({ setFigureData, options, setOptions }) => {
         xCenter: 0,
         yCenter: 0,
         radius: 0,
+        // Parámetros para elipses
+        xRadius: 0,
+        yRadius: 0
     });
 
     // Lista de algoritmos disponibles
@@ -128,7 +132,7 @@ const Menu = ({ setFigureData, options, setOptions }) => {
         { id: 'l-bsh', name: 'algorithm', label: 'LINEA BRESSENHAM' },
         { id: 'c-dda', name: 'algorithm', label: 'CIRCULO DDA' },
         { id: 'c-pm', name: 'algorithm', label: 'CIRCULO BRESSENHAM' },
-        // { id: 'e-pm', name: 'algorithm', label: 'ELIPSE PUNTO MEDIO' },
+        { id: 'e-pm', name: 'algorithm', label: 'ELIPSE BRESSENHAM' },
         // { id: 'par', name: 'algorithm', label: 'PARABOLA' },
         // { id: 'pol', name: 'algorithm', label: 'POLIGONO REGULAR' },
     ];
@@ -172,6 +176,14 @@ const Menu = ({ setFigureData, options, setOptions }) => {
             case 'c-pm':
                 data = circulobressenham(
                     algorithmParams.radius,
+                    algorithmParams.xCenter,
+                    algorithmParams.yCenter,
+                );
+                break;
+            case 'e-pm':
+                data = ellipseBresenham(
+                    algorithmParams.xRadius,
+                    algorithmParams.yRadius,
                     algorithmParams.xCenter,
                     algorithmParams.yCenter,
                 );
@@ -255,6 +267,43 @@ const Menu = ({ setFigureData, options, setOptions }) => {
                         id='radius'
                         label='Radio:'
                         value={algorithmParams.radius}
+                        onChange={handleParamChange}
+                    />
+                    <ColorPicker options={options} setOptions={setOptions} />
+
+                    <InputButton onClick={executeAlgorithm}>
+                        Ejecutar Algoritmo
+                    </InputButton>
+                </OptionsContainer>
+            );
+        }else if (selectedAlgorithm.startsWith('e-')) {
+            // Opciones para algoritmos de elipses
+            return (
+                <OptionsContainer>
+                    <h3>Configuración de elipse</h3>
+                    <InputGroupComponent
+                        id='xRadius'
+                        label='Radio X:'
+                        value={algorithmParams.xRadius}
+                        onChange={handleParamChange}
+                    />
+                    <InputGroupComponent
+                        id='yRadius'
+                        label='Radio Y:'
+                        value={algorithmParams.yRadius
+                        }
+                        onChange={handleParamChange}
+                    />
+                    <InputGroupComponent
+                        id='xCenter'
+                        label='Centro X:'
+                        value={algorithmParams.xCenter}
+                        onChange={handleParamChange}
+                    />
+                    <InputGroupComponent
+                        id='yCenter'
+                        label='Centro Y:'
+                        value={algorithmParams.yCenter}
                         onChange={handleParamChange}
                     />
                     <ColorPicker options={options} setOptions={setOptions} />
