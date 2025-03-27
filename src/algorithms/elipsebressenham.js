@@ -13,6 +13,8 @@ const getFullEllipse = (points) => {
 
 export function ellipseBresenham(xRadius, yRadius, xCenter = 0, yCenter = 0) {
     const points = []; // Arreglo de puntos del primer cuadrante
+    const table = []; // Arreglo de valores de la tabla de decisión
+
 
     let x = 0; // Primer punto X
     let y = yRadius; // primer punto Y
@@ -29,8 +31,7 @@ export function ellipseBresenham(xRadius, yRadius, xCenter = 0, yCenter = 0) {
 
     // Mientras el eje X sea menor que el eje Y
     while (dx < dy) {
-        // Agregar puntos de los 4 cuadrantes
-        
+        table.push(p);     
 
         if (p < 0) {
             x++;
@@ -45,7 +46,7 @@ export function ellipseBresenham(xRadius, yRadius, xCenter = 0, yCenter = 0) {
             dy = 2 * XRADIUSSQUARED * y;
             p = p + dx - dy + YRADIUSSQUARED;
         } 
-
+        dx === dy ? table.push(p) : null;
 
         points.push([x, y]);
     }
@@ -86,7 +87,7 @@ finalElipse.push([xCenter, yCenter]); // Añadir el centro del círculo
         xRadius: xRadius,
         xCenter: xCenter,
         yCenter: yCenter,
-        // table: table,
+        table: table,
     }; // Datos de la elipse
 
     return data;

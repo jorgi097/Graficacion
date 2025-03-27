@@ -20,6 +20,7 @@ export function parabolaBressenham(center, axis) {
 
 
     const points = [];
+    const table = []; // Arreglo de valores de la tabla de decisión
     let x = 0;
     let y = 0;
 
@@ -28,6 +29,7 @@ export function parabolaBressenham(center, axis) {
     let p = 3 / 4; // O igual a 1
 
     while (x < center) {
+        table.push(p);
         if (p <= 0) {
             x++;
             // Y queda igual
@@ -37,6 +39,7 @@ export function parabolaBressenham(center, axis) {
             y++;
             p = p - 2 * y + 1;
         }
+        x === center ? table.push(p) : null;
         axis === 'y' ? points.push([y, x]) : points.push([x, y]);
     }
 
@@ -44,6 +47,8 @@ export function parabolaBressenham(center, axis) {
 
     const data = {
         points: fullParabola,
+        table: table,
+
     }; // Datos de la parabola
 
     return data;
