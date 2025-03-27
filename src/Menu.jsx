@@ -6,6 +6,7 @@ import circulodda from './algorithms/circulodda';
 import circulobressenham from './algorithms/circulobressenham';
 import ColorPicker from './ColorPicker';
 import { ellipseBresenham } from './algorithms/elipsebressenham';
+import { parabolaBressenham } from './algorithms/parabolabressenham';
 
 // Estilos---------------------------------------------------------------
 const MenuStyled = styled.div`
@@ -74,6 +75,15 @@ const InputButton = styled.button`
     }
 `;
 
+const SelectStyled = styled.select`
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #333;
+    color: white;
+`;
+
 const RadioButton = ({ id, name, label, checked, onChange }) => {
     return (
         <RadioContainer>
@@ -104,6 +114,27 @@ const InputGroupComponent = ({ id, label, value, onChange }) => {
     );
 };
 
+const SelectGroupComponent = ({ id, label, options, onChange }) => {
+    return (
+
+        <InputGroup>
+            <InputLabel for={id}>{label}</InputLabel>
+
+            <SelectStyled
+                id={id}
+                name={id}
+                onChange={e => onChange(id, e.target.value)}>
+                {options.map(opt => (
+                    <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                    </option>
+                ))}
+            </SelectStyled>
+        </InputGroup>
+
+    );
+};
+
 // Componente Menu-------------------------------------------------------
 
 const Menu = ({ setFigureData, options, setOptions }) => {
@@ -123,7 +154,10 @@ const Menu = ({ setFigureData, options, setOptions }) => {
         radius: 0,
         // Parámetros para elipses
         xRadius: 0,
-        yRadius: 0
+        yRadius: 0,
+        // Parámetros para parabolas
+        center: 0,
+        axis: "x",
     });
 
     // Lista de algoritmos disponibles
@@ -133,7 +167,7 @@ const Menu = ({ setFigureData, options, setOptions }) => {
         { id: 'c-dda', name: 'algorithm', label: 'CIRCULO DDA' },
         { id: 'c-pm', name: 'algorithm', label: 'CIRCULO BRESSENHAM' },
         { id: 'e-pm', name: 'algorithm', label: 'ELIPSE BRESSENHAM' },
-        // { id: 'par', name: 'algorithm', label: 'PARABOLA' },
+        { id: 'par-pm', name: 'algorithm', label: 'PARABOLA' },
         // { id: 'pol', name: 'algorithm', label: 'POLIGONO REGULAR' },
     ];
 
@@ -144,8 +178,13 @@ const Menu = ({ setFigureData, options, setOptions }) => {
 
     // Actualiza los parámetros del algoritmo seleccionado
     const handleParamChange = (param, value) => {
-        setAlgorithmParams({ ...algorithmParams, [param]: parseInt(value) });
-    };
+        let newValue = value;
+        // Parse solo si son parámetros numéricos
+        if (['x1','y1','x2','y2','xCenter','yCenter','radius','xRadius','yRadius','center'].includes(param)) {
+          newValue = parseInt(value);
+        }
+        setAlgorithmParams({ ...algorithmParams, [param]: newValue });
+      };
 
     const executeAlgorithm = () => {
         let data;
@@ -170,14 +209,14 @@ const Menu = ({ setFigureData, options, setOptions }) => {
                 data = circulodda(
                     algorithmParams.radius,
                     algorithmParams.xCenter,
-                    algorithmParams.yCenter,
+                    algorithmParams.yCenter
                 );
                 break;
             case 'c-pm':
                 data = circulobressenham(
                     algorithmParams.radius,
                     algorithmParams.xCenter,
-                    algorithmParams.yCenter,
+                    algorithmParams.yCenter
                 );
                 break;
             case 'e-pm':
@@ -185,21 +224,24 @@ const Menu = ({ setFigureData, options, setOptions }) => {
                     algorithmParams.xRadius,
                     algorithmParams.yRadius,
                     algorithmParams.xCenter,
-                    algorithmParams.yCenter,
+                    algorithmParams.yCenter
+                );
+                break;
+            case 'par-pm':
+                data = parabolaBressenham(
+                    algorithmParams.center,
+                    algorithmParams.axis
                 );
                 break;
             default:
                 console.log('Algoritmo no implementado');
                 return;
         }
-        
+
         setFigureData(data); // Actualiza el estado en App.jsx con los puntos
 
         // Ajusta el tamaño de la matriz según los puntos generados
-        const newMatrixSize =
-            Math.max(
-                ...data.points.flat()
-            ) + 5;
+        const newMatrixSize = Math.max(...data.points.flat()) + 5;
         setOptions({
             ...options,
             xLength: newMatrixSize,
@@ -276,7 +318,7 @@ const Menu = ({ setFigureData, options, setOptions }) => {
                     </InputButton>
                 </OptionsContainer>
             );
-        }else if (selectedAlgorithm.startsWith('e-')) {
+        } else if (selectedAlgorithm.startsWith('e-')) {
             // Opciones para algoritmos de elipses
             return (
                 <OptionsContainer>
@@ -290,8 +332,7 @@ const Menu = ({ setFigureData, options, setOptions }) => {
                     <InputGroupComponent
                         id='yRadius'
                         label='Radio Y:'
-                        value={algorithmParams.yRadius
-                        }
+                        value={algorithmParams.yRadius}
                         onChange={handleParamChange}
                     />
                     <InputGroupComponent
@@ -306,6 +347,34 @@ const Menu = ({ setFigureData, options, setOptions }) => {
                         value={algorithmParams.yCenter}
                         onChange={handleParamChange}
                     />
+                    <ColorPicker options={options} setOptions={setOptions} />
+
+                    <InputButton onClick={executeAlgorithm}>
+                        Ejecutar Algoritmo
+                    </InputButton>
+                </OptionsContainer>
+            );
+        } else if (selectedAlgorithm.startsWith('par-')) {
+            // Opciones para algoritmos de elipses
+            return (
+                <OptionsContainer>
+                    <h3>Configuración de parabola</h3>
+                    <InputGroupComponent
+                        id='center'
+                        label='Centro:'
+                        value={algorithmParams.center}
+                        onChange={handleParamChange}
+                    />
+                    <SelectGroupComponent
+                        id='axis'
+                        label='Eje:'
+                        options={[
+                            { value: 'x', label: 'X' },
+                            { value: 'y', label: 'Y' },
+                        ]}
+                        onChange={handleParamChange}
+                    />
+
                     <ColorPicker options={options} setOptions={setOptions} />
 
                     <InputButton onClick={executeAlgorithm}>
