@@ -27,7 +27,8 @@ export const fillCircule = (points) => {
     // Concatena todos los arreglos en el orden correcto.
     const circulo = [].concat(oct1, oct3, oct4, oct5, oct6, oct7, oct8, oct2);
     
-    return circulo;
+    return [circulo, [oct1, oct2, oct3, oct4, oct5, oct6, oct7, oct8]]
+     // Retorna el círculo completo y los octantes como un objeto
   }
 
 const circulodda = (radius, xCenter = 0, yCenter = 0) => {
@@ -62,6 +63,3 @@ const circulodda = (radius, xCenter = 0, yCenter = 0) => {
 };
 
 export default circulodda;
-
-
-

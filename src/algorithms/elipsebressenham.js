@@ -1,14 +1,22 @@
 const getFullEllipse = (points) => {
     const fullEllipse = [];
+    const cuad1= [];
+    const cuad2= [];
+    const cuad3= [];
+    const cuad4= [];
     points.forEach((point) => {
         const x = point[0];
         const y = point[1];
-        fullEllipse.push([x, y]);
-        fullEllipse.push([x, -y]);
-        fullEllipse.push([-x, y]);
-        fullEllipse.push([-x, -y]);
+
+        cuad1.push([x, y]);
+        cuad2.push([x, -y]);
+        cuad3.push([-x, y]);
+        cuad4.push([-x, -y]);
     });
-    return fullEllipse;
+
+    fullEllipse.push(...cuad1, ...cuad2, ...cuad3, ...cuad4); // Unir todos los octantes en un solo arreglo
+
+    return fullEllipse, {cuad1, cuad2, cuad3, cuad4}; // Retorna el círculo completo y los octantes
 }
 
 export function ellipseBresenham(xRadius, yRadius, xCenter = 0, yCenter = 0) {
