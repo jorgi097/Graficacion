@@ -13,10 +13,11 @@ const MenuStyled = styled.div`
     display: block;
     min-width: 350px;
     max-width: 350px;
-    min-height: 100vh;
+    height: 100%; /* Ocupa el 100% de la altura del contenedor */
     background-color: #242324;
     color: ghostwhite;
     padding: 30px;
+    box-sizing: border-box; /* Incluye el padding en el cálculo del tamaño */
 `;
 
 const OptionsContainer = styled.div`
@@ -241,11 +242,12 @@ const Menu = ({ setFigureData, options, setOptions }) => {
         setFigureData(data); // Actualiza el estado en App.jsx con los puntos
 
         // Ajusta el tamaño de la matriz según los puntos generados
-        const newMatrixSize = Math.max(...data.points.flat()) + 5;
+        const maxX = Math.max(...data.points.map(point => point[0]));
+        const maxY = Math.max(...data.points.map(point => point[1]));
         setOptions({
             ...options,
-            xLength: newMatrixSize,
-            yLength: newMatrixSize,
+            xLength: maxX + 5,
+            yLength: maxY + 5,
         });
     };
 

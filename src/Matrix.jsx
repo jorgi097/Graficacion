@@ -2,14 +2,6 @@ import Block from './Block';
 import Row from './Row';
 import styled from 'styled-components';
 
-const Plane = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    width: ${props => props.width + 'px'};
-    height: fit-content;
-`;
-
 const StyledMatrix = styled.div`
     display: flex;
     flex-direction: row;
@@ -17,7 +9,20 @@ const StyledMatrix = styled.div`
     width: fit-content;
     margin: auto;
     padding: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
 `;
+
+const Plane = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    width: ${props => props.width + 'px'};
+    height: fit-content;
+`;
+
 
 function Matrix({ options, figureData }) { //Recibe los puntos y el largo de la matriz
     return (
@@ -33,7 +38,7 @@ function Matrix({ options, figureData }) { //Recibe los puntos y el largo de la 
                     />
                 ))}
             </div>
-            <Plane width={(options.xLength + 1) * 21}>
+            <Plane width={(options.xLength + 1 ) * 17}>
             <Row>
                     {Array.from(
                         { length: options.xLength + 1 },

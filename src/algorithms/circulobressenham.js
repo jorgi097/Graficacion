@@ -1,4 +1,4 @@
-import { fillCircule } from "./circulodda";
+import { fillCircule } from './circulodda';
 
 const circuloBressenham = (radius, xCenter = 0, yCenter = 0) => {
     const points = []; // Arreglo de puntos de todos los octantes
@@ -9,8 +9,6 @@ const circuloBressenham = (radius, xCenter = 0, yCenter = 0) => {
     let x = 0; // Inicializar x en 0
     let y = radius; // Inicializar y en el radio
 
-
-
     while (x < y) {
         table.push(p);
 
@@ -20,28 +18,33 @@ const circuloBressenham = (radius, xCenter = 0, yCenter = 0) => {
             y--; // Solo disminuimos y si p es negativo
             p += 2 * (x - y) + 1; // Calculo de parametro de decisión
         }
-        if(x === y-1)table.push(p);
+        if (x === y - 1) table.push(p);
 
-        // Calcular 8 octantes usando simetría
-        points.push([x, y]);
-
-        x++; // Siempre aumentamos x
+        points.push([x, y]); // Añadir el punto (x, y) al arreglo de puntos
+        x++; // Siempre incrementar x
     }
 
-    const fullCircule = fillCircule(points); // Llenar círculo con todos los puntos por simetria
+    const { circule: fullCircule, octants } = fillCircule(points, table); // Se obtiienen los demas octantes
 
-    const finalCircule = fullCircule.map(([x, y]) => [x + xCenter, y + yCenter]); // Mover círculo al centro
-    
-    finalCircule.push([xCenter, yCenter]); // Añadir el centro del círculo
+    const finalCircule = fullCircule.map(([x, y]) => [
+        x + xCenter,
+        y + yCenter,
+    ]);
+    finalCircule.push([xCenter, yCenter]); // Añade el centro
 
+    // Añade el centro
+    const finalOctants = octants.map(octant =>
+        octant.map(([x, y]) => [x + xCenter, y + yCenter])
+    );
 
     const data = {
         points: finalCircule,
+        octants: finalOctants,
         radius: radius,
         xCenter: xCenter,
         yCenter: yCenter,
         table: table,
-    }; // Datos del circulo
+    };
 
     return data;
 };

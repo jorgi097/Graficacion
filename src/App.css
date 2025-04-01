@@ -8,3 +8,9 @@
     margin: 0;
     box-sizing: border-box;
 }
+
+#root {
+
+
+    background-color: #f2f2f2;
+}

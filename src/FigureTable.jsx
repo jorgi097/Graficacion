@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 
 const TableContainer = styled.div`
-    margin: 20px;
-    height: 100%;
-    max-height: calc(100vh - 13vh);
-    min-width: 150px;
-    max-width: 200px;
+    margin: 0 20px 10px 0;
+    height: fit-content;
+    /* min-width: 120px; */
+    max-width: 150px;
     align-self: flex-start;
     border: 1px solid #333;
     border-radius: 5px;
@@ -14,7 +13,8 @@ const TableContainer = styled.div`
 `;
 
 const StyledFigureTable = styled.table`
-    width: 100%;
+    width: fit-content;
+    min-width: 60px;
     border-collapse: collapse;
     color: #cacaca;
     text-align: center;
@@ -45,22 +45,30 @@ const StyledTableRow = styled.tr`
     }
 `;
 
-const FigureTable = ({ figureData }) => {
-    if (!figureData.points.length) return;
+const FigureTable = ({ data }) => {
+    // Accedemos directamente al array
+    if (!data.length) return null;
+
+    const showPColumn = data && data.length && data[0].length === 3;
+
     return (
         <TableContainer>
             <StyledFigureTable>
                 <thead>
                     <tr>
-                        {figureData.table ? <StyledTableHeader>P</StyledTableHeader> : null}
+                        {showPColumn ? (
+                            <StyledTableHeader>P</StyledTableHeader>
+                        ) : null}
                         <StyledTableHeader>X</StyledTableHeader>
                         <StyledTableHeader>Y</StyledTableHeader>
                     </tr>
                 </thead>
                 <tbody>
-                    {figureData.points.map((point, index) => (
+                    {data.map((point, index) => (
                         <StyledTableRow key={index}>
-                            {figureData.table ? <StyledTableCell>{figureData.table[index]}</StyledTableCell> : null}
+                            {showPColumn ? (
+                                <StyledTableCell>{point[2]}</StyledTableCell>
+                            ) : null}
                             <StyledTableCell>{point[0]}</StyledTableCell>
                             <StyledTableCell>{point[1]}</StyledTableCell>
                         </StyledTableRow>
